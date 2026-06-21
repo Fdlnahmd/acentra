@@ -1,0 +1,1102 @@
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { 
+  Phone, 
+  MessageSquare, 
+  CheckCircle, 
+  Clock, 
+  Receipt, 
+  UserCheck, 
+  ShieldCheck, 
+  Star, 
+  Menu, 
+  X, 
+  Wrench, 
+  Droplets, 
+  PlusCircle, 
+  TrendingDown, 
+  Sparkles,
+  ChevronDown,
+  Info,
+  Snowflake
+} from "lucide-react";
+
+// Standard Indonesian formatting details
+const PHONE_NUMBER_DISPLAY = "0812-9090-3434";
+const WHATSAPP_NUMBER_RAW = "6281290903434"; // standard regional code format
+const BUSINESS_HOURS = "Senin - Minggu: 08.00 - 18.00 WIB";
+const SERVICE_AREAS = [
+  "Jakarta Selatan", "Jakarta Barat", "Jakarta Pusat", "Jakarta Utara", "Jakarta Timur",
+  "Depok", "Tangerang", "Tangerang Selatan", "Bekasi", "Bogor Kota"
+];
+
+// Custom WhatsApp message helper
+const getWhatsAppLink = (message: string) => {
+  return `https://wa.me/${WHATSAPP_NUMBER_RAW}?text=${encodeURIComponent(message)}`;
+};
+
+// Preset message templates for each CTA
+const MESSAGES = {
+  header: "Halo Acentra Service, saya ingin berkonsultasi mengenai keluhan AC rumah saya.",
+  hero: "Halo Acentra Service, saya ingin memesan jasa perawatan AC untuk rumah saya.",
+  pricingHelp: "Halo Acentra Service, saya ingin bertanya tentang estimasi biaya perbaikan AC saya.",
+  serviceCuci: "Halo Acentra Service, saya ingin memesan layanan Cuci AC Bersih Maksimal. Mohon informasi jadwal kosong terdekat.",
+  serviceRutin: "Halo Acentra Service, saya ingin menjadwalkan pemeriksaan Servis Rutin berkala untuk AC saya.",
+  servicePerbaikan: "Halo Acentra Service, AC rumah saya sedang bermasalah/tidak dingin. Saya ingin memesan layanan diagnosa dan Perbaikan.",
+  serviceFreon: "Halo Acentra Service, saya ingin memesan layanan Tambah/Isi Freon AC. Mohon informasi estimasi biaya dan waktu pengerjaan.",
+  servicePasang: "Halo Acentra Service, saya tertarik untuk melakukan Pemasangan AC Baru. Mohon info estimasi biaya instalasi.",
+  finalCta: "Halo Acentra Service, saya siap memesan teknisi sekarang agar AC rumah kembali dingin dan segar."
+};
+
+export default function App() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+
+  // Prevent background scrolling when mobile menu full-screen overlay is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
+  // Simple service pricing query builder to engage senior users and make estimated quotes transparent
+  const [selectedService, setSelectedService] = useState("cuci");
+  const [unitCount, setUnitCount] = useState(1);
+
+  const getCalculatorEstimate = () => {
+    switch (selectedService) {
+      case "cuci":
+        return {
+          price: unitCount * 80000,
+          description: "Termasuk cuci filter indoor, evaporator, drainase air, dan pembersihan unit outdoor."
+        };
+      case "rutin":
+        return {
+          price: unitCount * 130000,
+          description: "Termasuk cuci unit lengkap, pengecekan tekanan freon, dan arus kelistrikan kompresor."
+        };
+      case "freon":
+        return {
+          price: unitCount * 150000,
+          description: "Penambahan atau pengisian ulang gas freon (R32 / R410A) agar kualitas pendinginan AC kembali maksimal."
+        };
+      case "pasang":
+        return {
+          price: unitCount * 280000,
+          description: "Instalasi AC baru/pindahan secara rapi, termasuk vacum unit (tidak termasuk material pipa)."
+        };
+      default:
+        return { price: 0, description: "Silakan konsultasikan kerusakan langsung ke teknisi kami lewat WhatsApp." };
+    }
+  };
+
+  const calculatorInfo = getCalculatorEstimate();
+
+  const faqs = [
+    {
+      q: "Berapa lama garansi yang diberikan?",
+      a: "Kami memberikan garansi pengerjaan ulang gratis selama 30 hari jika mengalami kendala yang sama persis setelah perbaikan selesai dilakukan."
+    },
+    {
+      q: "Apakah biaya akan diinfokan di awal sebelum dikerjakan?",
+      a: "Ya, betul sekali. Teknisi kami akan melakukan pengecekan mendetail terlebih dahulu di rumah Anda, menjelaskan kerusakannya secara jujur, dan memberikan rincian biaya resmi sebelum melakukan tindakan perbaikan apa pun."
+    },
+    {
+      q: "Bagaimana jika teknisi datang terlambat?",
+      a: "Kami sangat menghargai waktu Anda. Jika teknisi kami terlambat lebih dari 30 menit dari jadwal kesepakatan tanpa konfirmasi terlebih dahulu, kami memberikan potongan langsung Rp 20.000 sebagai bentuk komitmen kenyamanan pelayanan kami."
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-white text-[#1e293b] font-sans antialiased selection:bg-[#F0F7FF] selection:text-[#0056B3]">
+      
+      {/* Dynamic Top Announcement Bar */}
+      <div className="bg-[#0056B3] text-white text-xs sm:text-sm py-2 px-4 font-bold text-center flex items-center justify-center gap-2">
+        <span className="inline-block w-2 h-2 rounded-full bg-[#25D366] animate-pulse"></span>
+        <span>Layanan Aktif Hari Ini • Teknisi Siap Dikirim ke Area Jabodetabek</span>
+      </div>
+
+      {/* Sticky Header */}
+      <header className="relative sticky top-0 z-50 bg-white px-4 sm:px-10 border-b border-slate-100 flex items-center justify-between h-[80px]">
+        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
+          
+          {/* Logo / Brand Name */}
+          <a href="#" className="flex items-center gap-2 group">
+            <div className="w-10 h-10 bg-[#0056B3] rounded-lg flex items-center justify-center">
+              <span className="text-white font-bold text-2xl relative -top-0.5">A</span>
+            </div>
+            <div>
+              <span className="text-2xl font-bold text-[#0056B3] tracking-tight block leading-none">
+                Acentra Service
+              </span>
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mt-1">
+                Servis AC Terpercaya
+              </span>
+            </div>
+          </a>
+
+          {/* Desktop Call to Action Button */}
+          <div className="hidden md:flex items-center gap-6">
+            <div className="text-right">
+              <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Ada Pertanyaan?</span>
+              <span className="text-base font-extrabold text-[#0F172A] block">{PHONE_NUMBER_DISPLAY}</span>
+            </div>
+            
+            <a
+              href={getWhatsAppLink(MESSAGES.header)}
+              target="_blank"
+              rel="noopener noreferrer"
+              id="header_cta_whatsapp"
+              className="bg-[#25D366] hover:bg-[#1da851] text-white px-6 py-2.5 rounded-full font-bold flex items-center gap-2 shadow-md transition-all active:scale-95 text-base"
+            >
+              <MessageSquare className="w-5 h-5 fill-current" />
+              <span>Chat WhatsApp</span>
+            </a>
+          </div>
+
+          {/* Mobile Menu Button - Animating Hamburger to X */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="w-11 h-11 flex items-center justify-center rounded-xl text-slate-600 hover:text-[#0056B3] active:bg-slate-50 transition-all focus:outline-none relative overflow-hidden"
+              aria-label="Menu"
+            >
+              <div className="relative w-7 h-7 flex items-center justify-center">
+                {/* Menu Icon */}
+                <motion.div
+                  animate={{ 
+                    rotate: mobileMenuOpen ? 90 : 0, 
+                    opacity: mobileMenuOpen ? 0 : 1,
+                    scale: mobileMenuOpen ? 0.7 : 1
+                  }}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
+                  className="absolute"
+                >
+                  <Menu className="w-7 h-7" />
+                </motion.div>
+                {/* X Icon */}
+                <motion.div
+                  initial={{ opacity: 0, rotate: -90, scale: 0.7 }}
+                  animate={{ 
+                    rotate: mobileMenuOpen ? 0 : -90, 
+                    opacity: mobileMenuOpen ? 1 : 0,
+                    scale: mobileMenuOpen ? 1 : 0.7
+                  }}
+                  transition={{ duration: 0.25, ease: "easeInOut" }}
+                  className="absolute"
+                >
+                  <X className="w-7 h-7" />
+                </motion.div>
+              </div>
+            </button>
+          </div>
+
+        </div>
+
+        {/* Backdrop Overlay (Dimmed Background) */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.55 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.25 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-black z-40 md:hidden"
+            />
+          )}
+        </AnimatePresence>
+
+        {/* Dropdown Panel sliding smoothly from top (y=0) */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -40 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -40 }}
+              transition={{ duration: 0.28, ease: "easeOut" }}
+              className="fixed inset-x-0 top-0 w-full bg-white border-b border-slate-200 shadow-2xl z-50 md:hidden flex flex-col h-auto max-h-[85vh] overflow-y-auto"
+            >
+              {/* Overlay Header with Logo and Close X button */}
+              <div className="h-[80px] w-full border-b border-slate-100 flex items-center justify-between px-4 sm:px-10 shrink-0 bg-white">
+                {/* Logo / Brand Name */}
+                <div className="flex items-center gap-2">
+                  <div className="w-10 h-10 bg-[#0056B3] rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold text-2xl relative -top-0.5">A</span>
+                  </div>
+                  <div>
+                    <span className="text-2xl font-bold text-[#0056B3] tracking-tight block leading-none">
+                      Acentra Service
+                    </span>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block mt-1">
+                      Servis AC Terpercaya
+                    </span>
+                  </div>
+                </div>
+
+                {/* Close Button with X inside the overlay */}
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-11 h-11 flex items-center justify-center rounded-xl text-slate-600 hover:text-[#0056B3] active:bg-slate-50 transition-all focus:outline-none"
+                  aria-label="Tutup Menu"
+                >
+                  <X className="w-7 h-7" />
+                </button>
+              </div>
+
+              <div className="px-5 py-6 space-y-5 bg-slate-50/50 flex flex-col justify-start pb-8">
+                
+                {/* Section Title */}
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block px-1">Layanan &amp; Kontak Kami</span>
+
+                {/* 1. Primary WhatsApp Link */}
+                <a
+                  href={getWhatsAppLink(MESSAGES.header)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  id="mobile_header_cta"
+                  className="w-full inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1da851] active:bg-[#16a34a] active:scale-[0.98] text-white font-extrabold py-4 px-6 rounded-2xl text-base shadow-md transition-all duration-150"
+                >
+                  <MessageSquare className="w-6 h-6 fill-current" />
+                  <span>Chat WhatsApp Sekarang</span>
+                </a>
+
+                {/* 2. Direct Phone Dial */}
+                <a
+                  href={`tel:${PHONE_NUMBER_DISPLAY.replace(/\s+/g, '')}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-full flex items-center justify-between p-4.5 bg-white hover:bg-slate-50 active:bg-slate-100 active:scale-[0.98] rounded-2xl border border-slate-100 shadow-xs transition-all text-left"
+                >
+                  <div className="flex items-center gap-3.5">
+                    <div className="w-11 h-11 bg-[#F0F7FF] text-[#0056B3] rounded-xl flex items-center justify-center shrink-0">
+                      <Phone className="w-5.5 h-5.5" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Panggilan Telepon Langsung</span>
+                      <span className="text-base font-extrabold text-[#0056B3] block mt-0.5">{PHONE_NUMBER_DISPLAY}</span>
+                    </div>
+                  </div>
+                  <ChevronDown className="w-5.5 h-5.5 text-slate-400 rotate-270" />
+                </a>
+
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </header>
+
+      {/* Hero Section */}
+      <section className="bg-[#F0F7FF] py-12 md:py-20 lg:py-24 border-b border-slate-100 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            
+            {/* Left Column: Text Content */}
+            <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
+              
+              {/* Trust Badge badge */}
+              <div className="inline-flex items-center gap-2 bg-white text-[#0056B3] px-4 py-2 rounded-full border border-slate-200/60 font-bold text-xs sm:text-sm tracking-wide mx-auto lg:mx-0 shadow-2xs">
+                <ShieldCheck className="w-4 h-4 text-[#0056B3]" />
+                <span>Pilihan Keluarga Indonesia • Khusus Lansia & Rumah Tangga</span>
+              </div>
+
+              {/* Headline */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#0F172A] tracking-tight leading-tight">
+                Servis AC Cepat, <br className="hidden sm:inline" />
+                <span className="text-[#0056B3] relative">Terpercaya</span>, dan <br className="hidden lg:inline" />
+                Bergaransi
+              </h1>
+
+              {/* Subheadline (Large & highly readable) */}
+              <p className="text-lg sm:text-xl text-[#475569] leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                Solusi AC dingin kembali dalam 60 menit. Dikerjakan oleh teknisi ahli berpengalaman untuk area perumahan Anda. Kami mengutamakan kejujuran, harga transparan, dan jaminan dingin maksimal.
+              </p>
+
+              {/* Big CTA Button */}
+              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                <a
+                  href={getWhatsAppLink(MESSAGES.hero)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  id="hero_cta_whatsapp"
+                  className="w-full sm:w-auto inline-flex bg-[#25D366] text-white text-lg sm:text-xl font-bold py-5 px-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all items-center justify-center gap-3 active:scale-95 duration-150 transform"
+                >
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  <span>Pesan via WhatsApp Sekarang</span>
+                </a>
+              </div>
+
+              {/* Real-time Online Indicator */}
+              <div className="flex items-center justify-center lg:justify-start gap-3 mt-4 text-sm text-slate-500">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 block relative">
+                  <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75"></span>
+                </span>
+                <span>Konsultasi Gratis • Balasan CS Kurang Dari 5 Menit</span>
+              </div>
+
+            </div>
+
+            {/* Right Column: Visual Trust Asset & Mock Conversation */}
+            <div className="lg:col-span-5 space-y-6">
+              
+              {/* Primary Visual Header Image */}
+              <div className="relative rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-slate-100 aspect-video lg:aspect-4/3">
+                <img
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQX43jIJxW7wvtkBNCiMlL8aAv50VdS-0ITLoSNkchjNQ&s=10"
+                  alt="Teknisi AC Acentra Service sedang melakukan perbaikan kompresor outdoor unit"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+                <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-xs p-3 rounded-lg shadow-md flex items-center justify-between">
+                  <div>
+                    <p className="text-xs text-slate-500 uppercase font-semibold">Foto Pekerjaan Asli</p>
+                    <p className="text-sm font-bold text-sky-950">Teknisi Rapi, Sopan & Bermasker</p>
+                  </div>
+                  <CheckCircle className="w-5 h-5 text-sky-600 shrink-0" />
+                </div>
+              </div>
+
+              {/* Unique Mock WhatsApp Conversation - Extremely intuitive for older adults */}
+              <div className="bg-emerald-50 rounded-2xl p-4 border border-emerald-100 shadow-xs max-w-sm mx-auto lg:max-w-none">
+                <p className="text-[11px] font-extrabold text-emerald-800 uppercase tracking-widest mb-3 flex items-center gap-1.5 justify-center sm:justify-start">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                  Simulasi Cara Pemesanan Sangat Mudah
+                </p>
+                
+                <div className="space-y-3">
+                  
+                  {/* Customer Chat Bubble */}
+                  <div className="flex flex-col items-end">
+                    <div className="bg-[#DCF8C6] text-slate-800 text-sm sm:text-base p-3 rounded-2xl rounded-tr-none max-w-[85%] shadow-2xs">
+                      <p className="leading-relaxed">Halo Acentra Service, AC kamar saya tiba-tiba tidak dingin dan mengeluarkan bunyi berisik. Apa bisa diperbaiki siang ini?</p>
+                      <span className="text-[10px] text-slate-500 text-right block mt-1">08:15 WIB</span>
+                    </div>
+                  </div>
+
+                  {/* Acentra Response Bubble */}
+                  <div className="flex flex-col items-start">
+                    <div className="bg-white text-slate-800 text-sm sm:text-base p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-2xs border border-emerald-100">
+                      <p className="font-bold text-sky-900 text-xs mb-1">Acentra Service CS</p>
+                      <p className="leading-relaxed">Bisa sekali Bapak/Ibu! Kami mempunyai teknisi standby terdekat. Kami kirim jam 13.00 WIB hari ini ya. Biaya dicek transparan sebelum dikerjakan. 👍</p>
+                      <span className="text-[10px] text-slate-500 block mt-1">08:17 WIB • Terbaca</span>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-16 md:py-24 bg-white border-b border-slate-100 px-4 sm:px-10">
+        <div className="max-w-7xl mx-auto">
+          
+          {/* Section Header */}
+          <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0056B3] border-b-4 border-[#0056B3] w-fit mx-auto pb-2 mb-2">
+              Layanan Kami
+            </h2>
+            <p className="text-lg text-slate-700 leading-relaxed">
+              Pilih jenis layanan yang Anda butuhkan. Klik tombol di bawah tiap layanan untuk pesan instan langsung dengan isi pesan WhatsApp otomatis.
+            </p>
+          </div>
+
+          {/* Grid Layout for Services */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            {/* Card 1: Cuci AC */}
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+              <div className="space-y-4">
+                <div className="w-14 h-14 rounded-xl bg-[#F0F7FF] text-[#0056B3] flex items-center justify-center">
+                  <Droplets className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-[#0056B3] transition-colors">
+                    Cuci AC Bersih Maksimal
+                  </h3>
+                  <p className="text-xs font-bold text-[#0056B3] uppercase tracking-widest mt-1">Saran: Setiap 3-4 Bulan</p>
+                </div>
+                <p className="text-[#475569] text-base leading-relaxed">
+                  Pembersihan total filter debu, evaporator indoor, baki drainase air, serta kipas kondensor outdoor. Menjauhkan kuman, mencegah bocor air, dan mengembalikan AC dingin seperti baru.
+                </p>
+                
+                {/* Visual price tag directly in card */}
+                <div className="bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-500">Estimasi Biaya Resmi:</span>
+                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 80.000 <span className="text-xs font-normal text-slate-400">/unit</span></span>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <a
+                  href={getWhatsAppLink(MESSAGES.serviceCuci)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1da851] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                >
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  <span>Pesan Jasa Cuci AC</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Card 2: Perbaikan AC */}
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+              <div className="space-y-4">
+                <div className="w-14 h-14 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                  <Wrench className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-[#0056B3] transition-colors">
+                    Perbaikan & Atasi Kerusakan
+                  </h3>
+                  <p className="text-xs font-bold text-amber-600 uppercase tracking-widest mt-1">Garansi 30 Hari</p>
+                </div>
+                <p className="text-[#475569] text-base leading-relaxed">
+                  Solusi tuntas untuk AC tidak dingin sama sekali, mati total, kompresor berisik, pipa membeku salju, kebocoran freon, sensor mati/eror, hingga modul elektronik rusak parah.
+                </p>
+
+                {/* Visual price tag directly in card */}
+                <div className="bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-500">Diagnosa Ahli di Tempat:</span>
+                  <span className="text-base font-extrabold text-amber-700">Transparan & Jujur di Awal</span>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <a
+                  href={getWhatsAppLink(MESSAGES.servicePerbaikan)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1da851] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                >
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  <span>Pesan Perbaikan AC</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Card 3: Tambah Freon */}
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+              <div className="space-y-4">
+                <div className="w-14 h-14 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
+                  <Snowflake className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-[#0056B3] transition-colors">
+                    Tambah / Isi Freon AC
+                  </h3>
+                  <p className="text-xs font-bold text-sky-600 uppercase tracking-widest mt-1">Saran: Bila Tekanan Kurang</p>
+                </div>
+                <p className="text-[#475569] text-base leading-relaxed">
+                  Isi ulang gas refrigerant resmi berkualitas tinggi (R32, R410A, R22) sesuai spesifikasi unit AC Anda. Sangat ideal untuk mengatasi kendala pipa es membeku dan AC yang kurang dingin.
+                </p>
+
+                {/* Visual price tag directly in card */}
+                <div className="bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-500">Estimasi Biaya Pengisian:</span>
+                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 150.000 <span className="text-xs font-normal text-slate-400">/unit</span></span>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <a
+                  href={getWhatsAppLink(MESSAGES.serviceFreon)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1da851] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                >
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  <span>Pesan Tambah Freon</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Card 4: Servis AC Rutin */}
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+              <div className="space-y-4">
+                <div className="w-14 h-14 rounded-xl bg-[#F0F7FF] text-[#0056B3] flex items-center justify-center">
+                  <Clock className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-[#0056B3] transition-colors">
+                    Servis Rutin Berkala
+                  </h3>
+                  <p className="text-xs font-bold text-[#0056B3] uppercase tracking-widest mt-1">Mencegah Kerusakan AC</p>
+                </div>
+                <p className="text-[#475569] text-base leading-relaxed">
+                  Pemeriksaan menyeluruh isi muatan freon R32/R410, pengecekan ketat amperase kompresor, kondisi komponen kelistrikan utama, serta pembersihan filter udara indoor secara optimal.
+                </p>
+
+                {/* Visual price tag directly in card */}
+                <div className="bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-500">Estimasi Biaya Pemeliharaan:</span>
+                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 130.000 <span className="text-xs font-normal text-slate-400">/unit</span></span>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <a
+                  href={getWhatsAppLink(MESSAGES.serviceRutin)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1da851] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                >
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  <span>Pesan Servis Rutin AC</span>
+                </a>
+              </div>
+            </div>
+
+            {/* Card 5: Pasang & Bongkar AC */}
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+              <div className="space-y-4">
+                <div className="w-14 h-14 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                  <PlusCircle className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-[#0056B3] transition-colors">
+                    Instalasi / Pasang Baru
+                  </h3>
+                  <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mt-1">Uji Fungsi Lengkap</p>
+                </div>
+                <p className="text-[#475569] text-base leading-relaxed">
+                  Pemasangan unit baru/bekas secara rapi sesuai standar sirkulasi ruang. Termasuk pemvakuman udara pipa wajib, pemasangan bracket kokoh, jalurnya air, dan tes dingin maksimal.
+                </p>
+
+                {/* Visual price tag directly in card */}
+                <div className="bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-500">Estimasi Biaya Pasang:</span>
+                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 280.000 <span className="text-xs font-normal text-slate-400">/unit</span></span>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <a
+                  href={getWhatsAppLink(MESSAGES.servicePasang)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1da851] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                >
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  <span>Pesan Pasang AC Baru</span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Simple Interactive Price Calculator widget inside Service (Great for transparent value) */}
+          <div className="mt-16 bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs max-w-4xl mx-auto">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="p-2 rounded-lg bg-[#F0F7FF] text-[#0056B3]">
+                <Receipt className="w-6 h-6" />
+              </span>
+              <div>
+                <h4 className="text-lg sm:text-xl font-bold text-slate-800">Kalkulator Estimasi Biaya Transparan</h4>
+                <p className="text-xs sm:text-sm text-slate-500">Prediksi biaya servis resmi Anda sekarang tanpa takut overcharge.</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              
+              {/* Inputs */}
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">Pilih Jenis Layanan:</label>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {[
+                      { id: "cuci", label: "Cuci AC" },
+                      { id: "rutin", label: "Servis Rutin" },
+                      { id: "freon", label: "Tambah Freon" },
+                      { id: "pasang", label: "Pasang Baru" }
+                    ].map((item) => (
+                      <button
+                        key={item.id}
+                        onClick={() => setSelectedService(item.id)}
+                        type="button"
+                        className={`py-2 px-3 rounded-lg text-xs sm:text-sm font-bold border transition-all text-center ${
+                          selectedService === item.id
+                            ? "bg-[#0056B3] border-[#0056B3] text-white shadow-xs"
+                            : "bg-white border-slate-200 text-slate-700 hover:bg-slate-50"
+                        }`}
+                      >
+                        {item.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-bold text-slate-500 mb-2 uppercase tracking-wide">
+                    Jumlah Unit AC: <span className="text-lg text-[#0056B3] font-black">{unitCount} Unit</span>
+                  </label>
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    value={unitCount}
+                    onChange={(e) => setUnitCount(parseInt(e.target.value) || 1)}
+                    className="w-full accent-[#0056B3] h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer"
+                  />
+                  <div className="flex justify-between text-[11px] text-slate-400 font-bold mt-1">
+                    <span>1 Unit</span>
+                    <span>5 Unit</span>
+                    <span>10 Unit</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Estimate Output */}
+              <div className="bg-white rounded-xl p-5 border border-slate-100 text-center md:text-left space-y-4 shadow-2xs">
+                <div>
+                  <span className="text-xs text-slate-400 uppercase tracking-widest font-bold">Total Estimasi Harga Jasa</span>
+                  <p className="text-3xl font-black text-[#0056B3] mt-1">
+                    Rp {calculatorInfo.price.toLocaleString("id-ID")}
+                  </p>
+                  <p className="text-[11px] text-slate-400 mt-1 font-medium">
+                    {selectedService === "freon"
+                      ? "*Harga pengisian dapat bervariasi tergantung pada kapasitas AC (PK) dan tipe freon yang digunakan."
+                      : selectedService === "pasang"
+                      ? "*Harga belum termasuk material pipa, bracket, pembobokan, atau biaya bongkar AC lama."
+                      : "*Harga resmi jasa, di luar suku cadang atau pengerjaan kompresor berat."}
+                  </p>
+                </div>
+
+                <div className="border-t border-slate-100 pt-3 text-xs text-slate-500 italic">
+                  &ldquo;{calculatorInfo.description}&rdquo;
+                </div>
+
+                <a
+                  href={getWhatsAppLink(
+                    `Halo Acentra Service, saya ingin pesan jasa ${
+                      selectedService === 'cuci' 
+                        ? 'Cuci AC' 
+                        : selectedService === 'rutin' 
+                        ? 'Servis Rutin' 
+                        : selectedService === 'freon'
+                        ? 'Tambah Freon'
+                        : 'Pasang Baru'
+                    } sebanyak ${unitCount} unit dengan estimasi harga resmi Rp ${calculatorInfo.price.toLocaleString("id-ID")}.`
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1da851] text-white font-extrabold py-3.5 px-4 rounded-xl text-sm shadow-xs transition-colors"
+                >
+                  <MessageSquare className="w-4 h-4 fill-current" />
+                  <span>Pesan Estimasi Ini via WhatsApp</span>
+                </a>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Why Choose Us Section */}
+      <section className="py-16 md:py-24 bg-white border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
+            <span className="text-[#0056B3] text-sm font-extrabold uppercase tracking-widest block">KOMITMEN UTAMA KAMI</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0056B3] tracking-tight">
+              Mengapa Memilih Kami?
+            </h2>
+            <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+              Kenyamanan ruang Anda adalah fokus utama kami. Kami berkomitmen memberikan layanan yang jujur, transparan, dan terpercaya.
+            </p>
+          </div>
+
+          {/* Core Trust Points in Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            {/* Trust Point 1: Experienced Technicians */}
+            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4">
+              <div className="w-12 h-12 rounded-lg bg-[#F0F7FF] text-[#0056B3] flex items-center justify-center shadow-2xs">
+                <UserCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-slate-800">
+                Teknisi Ahli
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Teknisi kami bersertifikat resmi, ramah, terlatih bertahun-tahun, serta bekerja sopan dengan standar kebersihan tinggi di rumah Anda.
+              </p>
+            </div>
+
+            {/* Trust Point 2: 30-Day Work Warranty */}
+            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4">
+              <div className="w-12 h-12 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-2xs">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-slate-800">
+                Garansi 30 Hari
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Jika timbul keluhan serupa setelah perbaikan dilakukan, kami langsung kirim teknisi kembali tanpa biaya sepeser pun. Garansi tertulis jelas.
+              </p>
+            </div>
+
+            {/* Trust Point 3: Transparent Pricing */}
+            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4">
+              <div className="w-12 h-12 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shadow-2xs">
+                <Receipt className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-slate-800">
+                Harga Transparan
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Tidak ada biaya tersembunyi atau ditutup-tutupi. Biaya pengerjaan selalu diinfokan resmi di muka sebelum pengerjaan disetujui.
+              </p>
+            </div>
+
+            {/* Trust Point 4: Fast Response */}
+            <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4">
+              <div className="w-12 h-12 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shadow-2xs">
+                <Clock className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg sm:text-xl font-bold text-slate-800">
+                Respon Cepat
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed">
+                Kami sangat menghargai waktu Anda. Layanan customer service online responsif menjawab seputar keluhan AC kapan pun Anda butuhkan.
+              </p>
+            </div>
+
+          </div>
+
+          {/* Satisfied Clients Small Counter banner inside Trust Section */}
+          <div className="mt-12 p-6 bg-slate-50 rounded-2xl border border-slate-100 text-center flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
+            <div>
+              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">4.8 / 5.0</span>
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block">Rating Kepuasan</span>
+            </div>
+            <div className="hidden sm:block w-px h-10 bg-slate-200"></div>
+            <div>
+              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">5,000+</span>
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block">Unit AC Berhasil Ditangani</span>
+            </div>
+            <div className="hidden sm:block w-px h-10 bg-slate-200"></div>
+            <div>
+              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">100%</span>
+              <span className="text-xs text-slate-400 font-bold uppercase tracking-wider block">Sertifikasi Teknisi Profesional</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-16 md:py-24 bg-[#F0F7FF] border-b border-slate-100 px-4 sm:px-10">
+        <div className="max-w-7xl mx-auto">
+          
+          {/* Header */}
+          <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
+            <span className="text-[#0056B3] text-sm font-bold uppercase tracking-widest block">Ulasan Pelanggan</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0056B3] tracking-tight">
+              Apa Kata Mereka?
+            </h2>
+            <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+              Kepuasan pelanggan khususnya orang tua dan kenyamanan anak di rumah adalah prioritas tertinggi kami.
+            </p>
+          </div>
+
+          {/* Testimonial Cards Layout */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            {/* Testimonial 1 */}
+            <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-xs space-y-4 flex flex-col justify-between">
+              <div className="space-y-4">
+                
+                {/* Visual Stars */}
+                <div className="flex items-center gap-1 text-amber-500">
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                </div>
+
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed italic">
+                  &ldquo;Sangat cocok untuk lansia seperti kami. Teknisi sangat sopan, memberi salam dengan rapi, sabar menjelaskan bagian yang bocor, dan membersihkan lantai setelah mencuci AC. Harganya pun pas dan transparan tanpa main harga.&rdquo;
+                </p>
+
+              </div>
+
+              <div className="pt-4 border-t border-slate-100">
+                <span className="font-bold text-[#0F172A] text-sm block">Ibu Sumarni</span>
+                <span className="text-xs text-slate-400 block">58 tahun • Jakarta Selatan</span>
+              </div>
+            </div>
+
+            {/* Testimonial 2 */}
+            <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-xs space-y-4 flex flex-col justify-between">
+              <div className="space-y-4">
+                
+                {/* Visual Stars */}
+                <div className="flex items-center gap-1 text-amber-500">
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                </div>
+
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed italic">
+                  &ldquo;AC dibersihkan dengan sangat seksama, kotoran hitam di talang air lepas semua. Tidak ada air berceceran di dinding atau kasur karena pelindung terpalnya tebal. Teknisi datang on-time menggunakan seragam resmi. Luar biasa.&rdquo;
+                </p>
+
+              </div>
+
+              <div className="pt-4 border-t border-slate-100">
+                <span className="font-bold text-[#0F172A] text-sm block">Bp. Hendra</span>
+                <span className="text-xs text-slate-400 block">52 tahun • Tangerang</span>
+              </div>
+            </div>
+
+            {/* Testimonial 3 */}
+            <div className="bg-white p-6 sm:p-8 rounded-2xl border border-slate-100 shadow-xs space-y-4 flex flex-col justify-between">
+              <div className="space-y-4">
+                
+                {/* Visual Stars */}
+                <div className="flex items-center gap-1 text-amber-500">
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                  <Star className="w-5 h-5 fill-current" />
+                </div>
+
+                <p className="text-slate-600 text-sm sm:text-base leading-relaxed italic">
+                  &ldquo;AC kamar anak tiba-tiba rewel dan bocor air deras di jam 11 malam. Hubungi customer service via WhatsApp pagi harinya, jam 1 siang teknisi sudah selesai merapikan pipa pembuangan. Proses garansinya juga sangat aman.&rdquo;
+                </p>
+
+              </div>
+
+              <div className="pt-4 border-t border-slate-100">
+                <span className="font-bold text-[#0F172A] text-sm block">Ibu Linda</span>
+                <span className="text-xs text-slate-400 block">45 tahun • Depok</span>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* Accordion FAQ Section (Highly useful helper for older adults on warranty & timing) */}
+      <section className="py-16 md:py-24 bg-white border-b border-slate-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          
+          {/* Header */}
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="text-3xl font-extrabold text-[#0056B3] tracking-tight">
+              Pertanyaan yang Sering Diajukan (FAQ)
+            </h2>
+            <p className="text-sm sm:text-base text-slate-500">
+              Ulasan singkat mengenai jaminan keamanan, kejujuran teknisi, dan tata cara garansi resmi kami.
+            </p>
+          </div>
+
+          {/* Accordion Wrapper */}
+          <div className="space-y-4">
+            {faqs.map((faq, idx) => {
+              const isOpen = activeFaq === idx;
+              return (
+                <div 
+                  key={idx} 
+                  className="bg-slate-50 rounded-xl border border-slate-150 overflow-hidden transition-all duration-200"
+                >
+                  <button
+                    onClick={() => setActiveFaq(isOpen ? null : idx)}
+                    className="w-full py-4 sm:py-5 px-6 flex items-center justify-between text-left focus:outline-hidden"
+                  >
+                    <span className="text-base sm:text-lg font-bold text-slate-800 leading-relaxed pr-4">
+                      {faq.q}
+                    </span>
+                    <ChevronDown className={`w-5 h-5 text-[#0056B3] shrink-0 transform transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        <div className="pb-5 px-6 border-t border-slate-200/50 pt-3 text-slate-600 text-sm sm:text-base leading-relaxed">
+                          {faq.a}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Interactive Help Box */}
+          <div className="mt-8 bg-[#F0F7FF] rounded-xl p-4 sm:p-5 border border-slate-100 flex items-start gap-3.5">
+            <Info className="w-6 h-6 text-[#0056B3] shrink-0 mt-0.5" />
+            <div>
+              <p className="text-sm font-bold text-slate-800">Punya Pertanyaan Khusus Lainnya?</p>
+              <p className="text-sm text-slate-500 mt-1">
+                Jangan ragu untuk tanyakan langsung ke customer service kami. Klik tombol di bawah untuk mulai chat secara cepat.
+              </p>
+              <a
+                href={getWhatsAppLink(MESSAGES.pricingHelp)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#25D366] hover:text-[#1da851] mt-2 transition-colors"
+              >
+                <MessageSquare className="w-4 h-4 fill-current" />
+                <span>Konsultasi Pertanyaan Anda Sekarang</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+       {/* Final Call To Action Section */}
+      <section className="bg-[#F0F7FF] py-16 md:py-24 border-b border-slate-100 text-center relative overflow-hidden">
+        
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
+          
+          <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-800 px-4 py-2 rounded-full border border-emerald-100 font-bold text-xs sm:text-sm tracking-wide mx-auto">
+            <Sparkles className="w-4 h-4 text-emerald-600 animate-pulse" />
+            <span>SIAP DATANG HARI INI • JADWAL SANGAT FLEKSIBEL</span>
+          </div>
+
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0056B3] tracking-tight leading-tight">
+            Siap AC di Rumah Anda Kembali Dingin?
+          </h2>
+          
+          <p className="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-2xl mx-auto">
+            Dapatkan pengalaman servis AC tanpa repot, transparan, dan bergaransi khusus keluarga tercinta. Cukup hubungi kami lewat WhatsApp dan teknisi kami segera dikirim.
+          </p>
+
+          <div className="pt-4 space-y-6">
+            
+            {/* Massive easy-to-tap Green Button representing high-volume core CTA */}
+            <a
+              href={getWhatsAppLink(MESSAGES.finalCta)}
+              target="_blank"
+              rel="noopener noreferrer"
+              id="final_cta_whatsapp"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#25D366] hover:bg-[#1da851] text-white font-extrabold py-5 px-10 rounded-2xl text-lg sm:text-2xl shadow-xl transition-all duration-150 transform active:scale-95"
+            >
+              <MessageSquare className="w-7 h-7 fill-current" />
+              <span>Hubungi Kami Lewat WhatsApp</span>
+            </a>
+
+            {/* Repetitive highly clear fallback details for older adults */}
+            <div className="space-y-2">
+              <span className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#0056B3] block">Atau hubungi manual di nomor:</span>
+              <p className="text-2xl sm:text-4xl font-extrabold text-slate-800 block select-all">
+                {PHONE_NUMBER_DISPLAY}
+              </p>
+              <span className="text-xs text-slate-400 font-medium block">
+                Kami siap merespon pertanyaan Anda atau mengagendakan kunjungan.
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* Full Informational Footer */}
+      <footer className="bg-slate-900 text-slate-300 py-16 border-t border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-8 pb-12 border-b border-slate-800">
+            
+            {/* Column 1: Brand details */}
+            <div className="md:col-span-5 space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="w-8 h-8 rounded-lg bg-[#0056B3] flex items-center justify-center text-white font-bold text-lg">
+                  A
+                </span>
+                <span className="text-lg font-bold text-white tracking-wide">
+                  Acentra Service
+                </span>
+              </div>
+              <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-sm">
+                Acentra Service adalah penyedia jasa perbaikan, pencucian, perawatan, dan instalasi AC rumah tangga berpengalaman dengan fokus pelayanan jujur, transparan, dan garansi penuh 30 hari.
+              </p>
+            </div>
+
+            {/* Column 2: Working Hours / Availability */}
+            <div className="md:col-span-3 space-y-4">
+              <h4 className="text-sm font-bold tracking-widest text-white uppercase">Waktu Operasional</h4>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li className="flex items-start gap-2">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-500 mt-2"></span>
+                  <span>{BUSINESS_HOURS}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 animate-pulse"></span>
+                  <span className="text-emerald-400 font-semibold">Tersedia di Hari Libur &amp; Tanggal Merah</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Column 3: Contact & Core Address Details */}
+            <div className="md:col-span-4 space-y-4">
+              <h4 className="text-sm font-bold tracking-widest text-white uppercase">Area &amp; Alamat</h4>
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                <strong>Alamat Utama:</strong> Jl. Metro Pondok Indah No. 12, Kebayoran Lama, Kota Jakarta Selatan, DKI Jakarta 12310
+              </p>
+              <div className="space-y-1">
+                <p className="text-sm">
+                  <strong>WhatsApp:</strong> <span className="text-emerald-400 select-all font-bold">{PHONE_NUMBER_DISPLAY}</span>
+                </p>
+                <p className="text-sm text-slate-400">
+                  <strong>Email:</strong> cs@acentraservice.com
+                </p>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Area Layanan list for absolute transparency */}
+          <div className="py-6 border-b border-slate-800 text-center md:text-left">
+            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-3">Wilayah Jangkauan Teknisi Kami</span>
+            <div className="flex flex-wrap justify-center md:justify-start gap-y-2 gap-x-4">
+              {SERVICE_AREAS.map((area, idx) => (
+                <span key={idx} className="bg-slate-800 text-slate-300 text-xs py-1 px-3 rounded-md font-medium border border-slate-700/50">
+                  📍 {area}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          {/* Copyright note */}
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center text-xs text-slate-500 font-medium">
+            <p>
+              &copy; {new Date().getFullYear()} Acentra Service. Semua Hak Cipta Dilindungi.
+            </p>
+            <p className="text-slate-600">
+              Situs Informasi Landing Page • Kebijakan Privasi • Syarat &amp; Ketentuan
+            </p>
+          </div>
+
+        </div>
+      </footer>
+
+    </div>
+  );
+}

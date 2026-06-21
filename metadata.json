@@ -1,0 +1,6 @@
+{
+  "name": "Acentra Service",
+  "description": "Servis AC Cepat, Terpercaya, dan Bergaransi - Solusi perbaikan dan cuci AC terbaik dan terpercaya.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
