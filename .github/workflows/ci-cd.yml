@@ -44,6 +44,19 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            # 1. Load NVM (Node Version Manager) agar perintah node & npm aktif
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            # 2. Inisialisasi/Clone repo jika folder /var/www/acentra bukan repository git
+            if [ ! -d "/var/www/acentra/.git" ]; then
+              echo "Folder /var/www/acentra belum di-clone. Melakukan clone..."
+              mkdir -p /var/www/acentra
+              rm -rf /var/www/acentra/* 2>/dev/null || true
+              git clone git@github.com:Fdlnahmd/acentra.git /var/www/acentra
+            fi
+
+            # 3. Masuk ke folder, update kode, dan build project
             cd /var/www/acentra
             git fetch origin ${{ github.ref_name }}
             git reset --hard origin/${{ github.ref_name }}
