@@ -1,0 +1,15 @@
+services:
+  web:
+    build: .
+    container_name: acentra-web
+    ports:
+      - "3002:80"
+    restart: always
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: acentra-tunnel
+    command: tunnel --url http://web:80
+    restart: always
+    depends_on:
+      - web
