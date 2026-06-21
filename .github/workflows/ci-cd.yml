@@ -41,7 +41,6 @@ jobs:
     name: Deploy to VPS
     needs: build
     runs-on: ubuntu-latest
-    # Hanya jalankan deploy jika push ke branch main atau master
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
 
     steps:
@@ -62,6 +61,6 @@ jobs:
           TARGET: ${{ secrets.VPS_TARGET_DIR }}
           # Opsional: Jika port SSH VPS kamu bukan 22, uncomment baris di bawah:
           # SSH_PORT: ${{ secrets.VPS_PORT }}
-          # Opsional: Jalankan command di VPS setelah file berhasil dikirim (misal restart service/nginx)
+          # Opsional: Jalankan command di VPS setelah file berhasil dikirim
           # SCRIPT_AFTER: |
           #   sudo systemctl reload nginx
