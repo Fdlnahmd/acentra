@@ -3,8 +3,7 @@ name: CI/CD Build & Deploy
 on:
   push:
     branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -30,13 +29,6 @@ jobs:
       - name: Build application
         run: npm run build
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist/
-          retention-days: 1
-
   deploy:
     name: Deploy to VPS
     needs: build
@@ -44,23 +36,16 @@ jobs:
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
 
     steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@master
         with:
-          name: dist
-          path: dist
-
-      - name: Deploy to VPS via rsync
-        uses: easingthemes/ssh-deploy@main
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-rlgoDzvO --delete"
-          SOURCE: "dist/"
-          REMOTE_HOST: ${{ secrets.VPS_HOST }}
-          REMOTE_USER: ${{ secrets.VPS_USER }}
-          TARGET: ${{ secrets.VPS_TARGET_DIR }}
-          # Opsional: Jika port SSH VPS kamu bukan 22, uncomment baris di bawah:
-          # SSH_PORT: ${{ secrets.VPS_PORT }}
-          # Opsional: Jalankan command di VPS setelah file berhasil dikirim
-          # SCRIPT_AFTER: |
-          #   sudo systemctl reload nginx
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /var/www/acentra
+            git fetch origin ${{ github.ref_name }}
+            git reset --hard origin/${{ github.ref_name }}
+            npm install
+            npm run build
