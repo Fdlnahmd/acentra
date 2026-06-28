@@ -1,0 +1,10 @@
+# Acentra Service
+
+Jasa servis AC rumah tangga cepat, terpercaya, dan bergaransi 30 hari di area Jabodetabek.
+
+## Halaman Utama
+
+- [Landing Page](https://acentraservice.com/): Halaman informasi utama, jasa servis, estimasi harga transparan, ulasan pelanggan, dan FAQ.
+- [Layanan Kami](https://acentraservice.com/#services): Pilihan jenis perawatan AC (Cuci AC, Perbaikan, Isi Freon, Servis Rutin, Pasang Baru).
+- [Estimasi Biaya](https://acentraservice.com/#calculator): Kalkulator interaktif perkiraan harga jasa resmi.
+- [Pertanyaan Umum](https://acentraservice.com/#faq): Informasi seputar kebijakan garansi 30 hari dan waktu kehadiran teknisi.

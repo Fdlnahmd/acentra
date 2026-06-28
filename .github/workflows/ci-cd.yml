@@ -44,16 +44,16 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            # 1. Inisialisasi/Clone repo jika folder /var/www/acentra bukan repository git
-            if [ ! -d "/var/www/acentra/.git" ]; then
-              echo "Folder /var/www/acentra belum di-clone. Melakukan clone..."
-              mkdir -p /var/www/acentra
-              rm -rf /var/www/acentra/* 2>/dev/null || true
-              git clone git@github.com:Fdlnahmd/acentra.git /var/www/acentra
+            # 1. Inisialisasi/Clone repo jika folder /home/acentra bukan repository git
+            if [ ! -d "/home/acentra/.git" ]; then
+              echo "Folder /home/acentra belum di-clone. Melakukan clone..."
+              mkdir -p /home/acentra
+              rm -rf /home/acentra/* 2>/dev/null || true
+              git clone git@github.com:Fdlnahmd/acentra.git /home/acentra
             fi
 
             # 2. Masuk ke folder, update kode, dan jalankan docker compose
-            cd /var/www/acentra
+            cd /home/acentra
             git fetch origin ${{ github.ref_name }}
             git reset --hard origin/${{ github.ref_name }}
             docker compose up -d --build --remove-orphans
