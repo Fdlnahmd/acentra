@@ -732,7 +732,7 @@ export default function App() {
             </div>
             <div className="hidden sm:block w-px h-10 bg-slate-200"></div>
             <div>
-              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">10 Tahun +</span>
+              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">10 Tahun+</span>
               <span className="text-xs text-slate-500 font-bold uppercase tracking-wider block">Pengalaman</span>
             </div>
           </div>
