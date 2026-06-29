@@ -2,14 +2,20 @@ services:
   web:
     build: .
     container_name: acentra-web
-    ports:
-      - "3002:80"
     restart: always
+    networks:
+      - nexvol_tunnel
 
   tunnel:
     image: cloudflare/cloudflared:latest
     container_name: acentra-tunnel
-    command: tunnel --url http://web:80
+    command: tunnel run --token eyJhIjoiMzM1ZTI2MDM0Nzg1N2Q1YzZiZDNlNzkzMWFmODdmOWUiLCJ0IjoiMzRmZjBjYWEtYWMyZC00YWE5LWFmMmEtYTJmNmU1NmUyMjY0IiwicyI6Ik56RXlObVF6WVdZdE1qSXlZaTAwTXprNExUazRPR1V0TjJabE5XTXpObVF4WmprMSJ9
     restart: always
     depends_on:
       - web
+    networks:
+      - nexvol_tunnel
+
+networks:
+  nexvol_tunnel:
+    external: true
