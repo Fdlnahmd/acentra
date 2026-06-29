@@ -902,7 +902,7 @@ export default function App() {
                 <p className="text-sm">
                   <strong>WhatsApp:</strong> <span className="text-emerald-400 select-all font-bold">{PHONE_NUMBER_DISPLAY}</span>
                   <br />
-                  <strong>Instagram:</strong> <a href="https://www.instagram.com/acentraservice" target="_blank" rel="noopener noreferrer" className="text-pink-400 select-all font-bold">@acentraservice</a>
+                  <strong>Instagram:</strong> <a href="https://www.instagram.com/acentra.id" target="_blank" rel="noopener noreferrer" className="text-pink-400 select-all font-bold">@acentra.id</a>
                 </p>
                 <p className="text-sm text-slate-400">
                   <strong>Email:</strong> acentraservice@gmail.com
