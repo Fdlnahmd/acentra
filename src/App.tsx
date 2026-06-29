@@ -674,7 +674,7 @@ export default function App() {
                 Teknisi Ahli
               </h3>
               <p className="text-slate-500 text-sm leading-relaxed">
-                Teknisi kami bersertifikat resmi, ramah, terlatih bertahun-tahun, serta bekerja sopan dengan standar kebersihan tinggi di rumah Anda.
+                Teknisi kami berpengalaman, ramah, terlatih bertahun-tahun, serta bekerja sopan dengan standar kebersihan tinggi di rumah anda.
               </p>
             </div>
 
