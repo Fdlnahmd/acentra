@@ -147,7 +147,7 @@ export default function App() {
               target="_blank"
               rel="noopener noreferrer"
               id="header_cta_whatsapp"
-              className="bg-[#1da851] hover:bg-[#157a3b] text-white px-6 py-2.5 rounded-full font-bold flex items-center gap-2 shadow-md transition-all active:scale-95 text-base"
+              className="bg-[#15803d] hover:bg-[#166534] text-white px-6 py-2.5 rounded-full font-bold flex items-center gap-2 shadow-md transition-all active:scale-95 text-base"
             >
               <MessageSquare className="w-5 h-5 fill-current" />
               <span>Chat WhatsApp</span>
@@ -246,7 +246,7 @@ export default function App() {
                   rel="noopener noreferrer"
                   onClick={() => setMobileMenuOpen(false)}
                   id="mobile_header_cta"
-                  className="w-full inline-flex items-center justify-center gap-3 bg-[#1da851] hover:bg-[#157a3b] active:bg-[#16a34a] active:scale-[0.98] text-white font-extrabold py-4 px-6 rounded-2xl text-base shadow-md transition-all duration-150"
+                  className="w-full inline-flex items-center justify-center gap-3 bg-[#15803d] hover:bg-[#166534] active:bg-[#16a34a] active:scale-[0.98] text-white font-extrabold py-4 px-6 rounded-2xl text-base shadow-md transition-all duration-150"
                 >
                   <MessageSquare className="w-6 h-6 fill-current" />
                   <span>Chat WhatsApp Sekarang</span>
@@ -320,7 +320,7 @@ export default function App() {
                 target="_blank"
                 rel="noopener noreferrer"
                 id="hero_cta_whatsapp"
-                className="w-full sm:w-auto inline-flex bg-[#1da851] hover:bg-[#157a3b] text-white text-lg sm:text-xl font-bold py-5 px-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all items-center justify-center gap-3 active:scale-95 duration-150 transform"
+                className="w-full sm:w-auto inline-flex bg-[#15803d] hover:bg-[#166534] text-white text-lg sm:text-xl font-bold py-5 px-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all items-center justify-center gap-3 active:scale-95 duration-150 transform"
               >
                 <MessageSquare className="w-5 h-5 fill-current" />
                 <span>Pesan via WhatsApp Sekarang</span>
@@ -383,7 +383,7 @@ export default function App() {
                   href={getWhatsAppLink(MESSAGES.serviceCuci)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#1da851] hover:bg-[#157a3b] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
                 >
                   <MessageSquare className="w-5 h-5 fill-current" />
                   <span>Pesan Jasa Cuci AC</span>
@@ -394,14 +394,14 @@ export default function App() {
             {/* Card 2: Perbaikan AC */}
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
               <div className="space-y-4">
-                <div className="w-14 h-14 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center">
                   <Wrench className="w-7 h-7" />
                 </div>
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-[#0056B3] transition-colors">
-                    Perbaikan & Atasi Kerusakan
+                    Perbaikan &amp; Atasi Kerusakan
                   </h3>
-                  <p className="text-xs font-bold text-amber-600 uppercase tracking-widest mt-1">Service Bergaransi</p>
+                  <p className="text-xs font-bold text-amber-800 uppercase tracking-widest mt-1">Service Bergaransi</p>
                 </div>
                 <p className="text-[#475569] text-base leading-relaxed">
                   Solusi tuntas untuk AC tidak dingin sama sekali, mati total, kompresor berisik, pipa membeku salju, kebocoran freon, sensor mati/eror, hingga modul elektronik rusak parah.
@@ -419,7 +419,7 @@ export default function App() {
                   href={getWhatsAppLink(MESSAGES.servicePerbaikan)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#1da851] hover:bg-[#157a3b] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
                 >
                   <MessageSquare className="w-5 h-5 fill-current" />
                   <span>Pesan Perbaikan AC</span>
@@ -430,14 +430,14 @@ export default function App() {
             {/* Card 3: Tambah Freon */}
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
               <div className="space-y-4">
-                <div className="w-14 h-14 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-xl bg-sky-50 text-sky-800 flex items-center justify-center">
                   <Snowflake className="w-7 h-7" />
                 </div>
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-[#0056B3] transition-colors">
                     Tambah / Isi Freon AC
                   </h3>
-                  <p className="text-xs font-bold text-sky-600 uppercase tracking-widest mt-1">Saran: Bila Tekanan Kurang</p>
+                  <p className="text-xs font-bold text-sky-800 uppercase tracking-widest mt-1">Saran: Bila Tekanan Kurang</p>
                 </div>
                 <p className="text-[#475569] text-base leading-relaxed">
                   Isi ulang gas refrigerant resmi berkualitas tinggi (R32, R410A, R22) sesuai spesifikasi unit AC Anda. Sangat ideal untuk mengatasi kendala pipa es membeku dan AC yang kurang dingin.
@@ -455,7 +455,7 @@ export default function App() {
                   href={getWhatsAppLink(MESSAGES.serviceFreon)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#1da851] hover:bg-[#157a3b] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
                 >
                   <MessageSquare className="w-5 h-5 fill-current" />
                   <span>Pesan Tambah Freon</span>
@@ -491,7 +491,7 @@ export default function App() {
                   href={getWhatsAppLink(MESSAGES.serviceRutin)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#1da851] hover:bg-[#157a3b] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
                 >
                   <MessageSquare className="w-5 h-5 fill-current" />
                   <span>Pesan Servis Rutin AC</span>
@@ -502,14 +502,14 @@ export default function App() {
             {/* Card 5: Pasang & Bongkar AC */}
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
               <div className="space-y-4">
-                <div className="w-14 h-14 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center">
                   <PlusCircle className="w-7 h-7" />
                 </div>
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-[#0056B3] transition-colors">
                     Instalasi / Pasang Baru
                   </h3>
-                  <p className="text-xs font-bold text-emerald-600 uppercase tracking-widest mt-1">Uji Fungsi Lengkap</p>
+                  <p className="text-xs font-bold text-emerald-800 uppercase tracking-widest mt-1">Uji Fungsi Lengkap</p>
                 </div>
                 <p className="text-[#475569] text-base leading-relaxed">
                   Pemasangan unit baru/bekas secara rapi sesuai standar sirkulasi ruang. Termasuk pemvakuman udara pipa wajib, pemasangan bracket kokoh, jalurnya air, dan tes dingin maksimal.
@@ -527,7 +527,7 @@ export default function App() {
                   href={getWhatsAppLink(MESSAGES.servicePasang)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#1da851] hover:bg-[#157a3b] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
                 >
                   <MessageSquare className="w-5 h-5 fill-current" />
                   <span>Pesan Pasang AC Baru</span>
@@ -554,7 +554,7 @@ export default function App() {
               {/* Inputs */}
               <div className="space-y-6">
                 <div>
-                  <label htmlFor="unitCountSlider" className="block text-sm font-bold text-slate-600 mb-2 uppercase tracking-wide">Pilih Jenis Layanan:</label>
+                  <span className="block text-sm font-bold text-slate-600 mb-2 uppercase tracking-wide">Pilih Jenis Layanan:</span>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {[
                       { id: "cuci", label: "Cuci AC" },
@@ -634,7 +634,7 @@ export default function App() {
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full inline-flex items-center justify-center gap-2 bg-[#1da851] hover:bg-[#157a3b] text-white font-extrabold py-3.5 px-4 rounded-xl text-sm shadow-xs transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white font-extrabold py-3.5 px-4 rounded-xl text-sm shadow-xs transition-colors"
                 >
                   <MessageSquare className="w-4 h-4 fill-current" />
                   <span>Pesan Estimasi Ini via WhatsApp</span>
@@ -678,7 +678,7 @@ export default function App() {
 
             {/* Trust Point 2: 30-Day Work Warranty */}
             <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4">
-              <div className="w-12 h-12 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center shadow-2xs">
+              <div className="w-12 h-12 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center shadow-2xs">
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-slate-800">
@@ -704,7 +704,7 @@ export default function App() {
 
             {/* Trust Point 4: Fast Response */}
             <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4">
-              <div className="w-12 h-12 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center shadow-2xs">
+              <div className="w-12 h-12 rounded-lg bg-amber-50 text-amber-800 flex items-center justify-center shadow-2xs">
                 <Clock className="w-6 h-6" />
               </div>
               <h3 className="text-lg sm:text-xl font-bold text-slate-800">
@@ -802,7 +802,7 @@ export default function App() {
                 href={getWhatsAppLink(MESSAGES.pricingHelp)}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#25D366] hover:text-[#1da851] mt-2 transition-colors"
+                className="inline-flex items-center gap-1.5 text-sm font-bold text-[#15803d] hover:text-[#166534] mt-2 transition-colors"
               >
                 <MessageSquare className="w-4 h-4 fill-current" />
                 <span>Konsultasi Pertanyaan Anda Sekarang</span>
@@ -820,7 +820,7 @@ export default function App() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
           
           <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-800 px-4 py-2 rounded-full border border-emerald-100 font-bold text-xs sm:text-sm tracking-wide mx-auto">
-            <Sparkles className="w-4 h-4 text-emerald-600 animate-pulse" />
+            <Sparkles className="w-4 h-4 text-emerald-800 animate-pulse" />
             <span>SIAP DATANG HARI INI • JADWAL SANGAT FLEKSIBEL</span>
           </div>
 
@@ -840,7 +840,7 @@ export default function App() {
               target="_blank"
               rel="noopener noreferrer"
               id="final_cta_whatsapp"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#1da851] hover:bg-[#157a3b] text-white font-extrabold py-5 px-10 rounded-2xl text-lg sm:text-2xl shadow-xl transition-all duration-150 transform active:scale-95"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-[#15803d] hover:bg-[#166534] text-white font-extrabold py-5 px-10 rounded-2xl text-lg sm:text-2xl shadow-xl transition-all duration-150 transform active:scale-95"
             >
               <MessageSquare className="w-7 h-7 fill-current" />
               <span>Hubungi Kami Lewat WhatsApp</span>
@@ -928,7 +928,7 @@ export default function App() {
             <p>
               &copy; {new Date().getFullYear()} Acentra Service. Semua Hak Cipta Dilindungi.
             </p>
-            <p className="text-slate-600">
+            <p className="text-slate-400">
               Acentra Service Landing Page • Kebijakan Privasi • Syarat &amp; Ketentuan
             </p>
           </div>
