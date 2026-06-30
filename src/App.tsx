@@ -20,8 +20,8 @@ import {
   Info,
   Snowflake
 } from "lucide-react";
-const logoIcon = "/assets/logo/ACETRA 1 logo only.webp";
-const bgImage = "/assets/logo/bg.webp";
+const logoIcon = "/assets/logo/ACETRA 1 logo only.webp?v=2";
+const bgImage = "/assets/logo/bg.webp?v=2";
 
 // Standard Indonesian formatting details
 const PHONE_NUMBER_DISPLAY = "085286660797";
@@ -852,7 +852,7 @@ export default function App() {
               <p className="text-2xl sm:text-4xl font-extrabold text-slate-800 block select-all">
                 {PHONE_NUMBER_DISPLAY}
               </p>
-              <span className="text-xs text-slate-500 font-medium block">
+              <span className="text-xs text-slate-700 font-medium block">
                 Kami siap merespon pertanyaan Anda atau mengagendakan kunjungan.
               </span>
             </div>
@@ -924,7 +924,7 @@ export default function App() {
           </div>
 
           {/* Copyright note */}
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center text-xs text-slate-500 font-medium">
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center text-xs text-slate-400 font-medium">
             <p>
               &copy; {new Date().getFullYear()} Acentra Service. Semua Hak Cipta Dilindungi.
             </p>
