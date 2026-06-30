@@ -640,11 +640,9 @@ export default function App() {
                   <span>Pesan Estimasi Ini via WhatsApp</span>
                 </a>
               </div>
-
+            </div>
             </div>
           </div>
-
-        </div>
       </section>
 
       {/* Why Choose Us Section */}
@@ -880,23 +878,23 @@ export default function App() {
 </p>
             </div>
 
-{/* Column 2: Working Hours / Availability */}
-<div className="md:col-span-3 space-y-4">
-  <p className="text-sm font-bold tracking-widest text-white uppercase">Waktu Operasional</p>
-  <ul className="space-y-2 text-sm text-slate-400">
-    <li className="flex items-start gap-2">
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-500 mt-2"></span>
-      <span data-nosnippet>{BUSINESS_HOURS}</span>
-    </li>
-    <li className="flex items-start gap-2">
-      <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 animate-pulse"></span>
-      <span data-nosnippet className="text-emerald-400 font-semibold">Tersedia di Hari Libur &amp; Tanggal Merah</span>
-    </li>
-  </ul>
-</div>
+            {/* Column 2: Working Hours / Availability */}
+            <div data-nosnippet className="md:col-span-3 space-y-4">
+              <p className="text-sm font-bold tracking-widest text-white uppercase">Waktu Operasional</p>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li className="flex items-start gap-2">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-500 mt-2"></span>
+                  <span>{BUSINESS_HOURS}</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 animate-pulse"></span>
+                  <span className="text-emerald-400 font-semibold">Tersedia di Hari Libur &amp; Tanggal Merah</span>
+                </li>
+              </ul>
+            </div>
 
             {/* Column 3: Contact & Core Address Details */}
-            <div className="md:col-span-4 space-y-4">
+            <div data-nosnippet className="md:col-span-4 space-y-4">
               <p className="text-sm font-bold tracking-widest text-white uppercase">Area &amp; Alamat</p>
               <div className="space-y-1">
                 <p className="text-sm">
@@ -911,6 +909,7 @@ export default function App() {
             </div>
 
           </div>
+
 
           {/* Area Layanan list for absolute transparency */}
           <div className="py-6 border-b border-slate-800 text-center md:text-left">
