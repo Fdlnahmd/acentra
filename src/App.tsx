@@ -875,25 +875,25 @@ export default function App() {
               <div className="flex items-center">
                 <img src={logoIcon} alt="Logo Acentra Service – Jasa Servis AC Depok" className="h-10 w-auto object-contain" width={800} height={142} />
               </div>
-              <p className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-sm">
-                Acentra Service adalah penyedia jasa perbaikan, pencucian, perawatan, dan instalasi AC rumah tangga berpengalaman dengan fokus pelayanan jujur, transparan, dan bergaransi.
-              </p>
+              <p data-nosnippet className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-sm">
+  Acentra Service adalah penyedia jasa perbaikan, pencucian, perawatan, dan instalasi AC rumah tangga berpengalaman dengan fokus pelayanan jujur, transparan, dan bergaransi.
+</p>
             </div>
 
-            {/* Column 2: Working Hours / Availability */}
-            <div className="md:col-span-3 space-y-4">
-              <p className="text-sm font-bold tracking-widest text-white uppercase">Waktu Operasional</p>
-              <ul className="space-y-2 text-sm text-slate-400">
-                <li className="flex items-start gap-2">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-500 mt-2"></span>
-                  <span>{BUSINESS_HOURS}</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 animate-pulse"></span>
-                  <span className="text-emerald-400 font-semibold">Tersedia di Hari Libur &amp; Tanggal Merah</span>
-                </li>
-              </ul>
-            </div>
+{/* Column 2: Working Hours / Availability */}
+<div className="md:col-span-3 space-y-4">
+  <p className="text-sm font-bold tracking-widest text-white uppercase">Waktu Operasional</p>
+  <ul className="space-y-2 text-sm text-slate-400">
+    <li className="flex items-start gap-2">
+      <span className="inline-block w-1.5 h-1.5 rounded-full bg-sky-500 mt-2"></span>
+      <span data-nosnippet>{BUSINESS_HOURS}</span>
+    </li>
+    <li className="flex items-start gap-2">
+      <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mt-2 animate-pulse"></span>
+      <span data-nosnippet className="text-emerald-400 font-semibold">Tersedia di Hari Libur &amp; Tanggal Merah</span>
+    </li>
+  </ul>
+</div>
 
             {/* Column 3: Contact & Core Address Details */}
             <div className="md:col-span-4 space-y-4">
