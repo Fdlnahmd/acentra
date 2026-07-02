@@ -132,7 +132,7 @@ export default function App() {
           
           {/* Logo / Brand Name */}
           <a href="#" className="flex items-center group">
-            <img src={logoIcon} alt="Logo Acentra Service – Jasa Servis AC Depok" className="h-10 sm:h-12 w-auto object-contain" width={800} height={142} />
+            <img src={logoIcon} alt="Logo Acentra Service – Jasa Servis AC Depok" className="h-10 sm:h-12 w-auto object-contain" width={800} height={142} fetchPriority="high" decoding="sync" style={{aspectRatio: '800/142'}} />
           </a>
 
           {/* Desktop Call to Action Button */}
@@ -221,7 +221,7 @@ export default function App() {
               <div className="h-[80px] w-full border-b border-slate-100 flex items-center justify-between px-4 sm:px-10 shrink-0 bg-white">
                 {/* Logo / Brand Name */}
                 <div className="flex items-center">
-                  <img src={logoIcon} alt="Logo Acentra Service – Jasa Servis AC Depok" className="h-10 w-auto object-contain" width={800} height={142} />
+                  <img src={logoIcon} alt="Logo Acentra Service – Jasa Servis AC Depok" className="h-10 w-auto object-contain" width={800} height={142} decoding="async" />
                 </div>
 
                 {/* Close Button with X inside the overlay */}
@@ -286,6 +286,8 @@ export default function App() {
             src={bgImage} 
             alt="Teknisi AC profesional Acentra Service sedang mengerjakan servis AC di Depok" 
             className="w-full h-full object-cover"
+            width={1600}
+            height={872}
             fetchPriority="high"
           />
           {/* Dark Overlay with Gradient */}
@@ -871,7 +873,7 @@ export default function App() {
             {/* Column 1: Brand details */}
             <div className="md:col-span-5 space-y-4">
               <div className="flex items-center">
-                <img src={logoIcon} alt="Logo Acentra Service – Jasa Servis AC Depok" className="h-10 w-auto object-contain" width={800} height={142} />
+                <img src={logoIcon} alt="Logo Acentra Service – Jasa Servis AC Depok" className="h-10 w-auto object-contain" width={800} height={142} decoding="async" />
               </div>
               <p data-nosnippet className="text-slate-400 text-sm sm:text-base leading-relaxed max-w-sm">
   Acentra Service adalah penyedia jasa perbaikan, pencucian, perawatan, dan instalasi AC rumah tangga berpengalaman dengan fokus pelayanan jujur, transparan, dan bergaransi.
