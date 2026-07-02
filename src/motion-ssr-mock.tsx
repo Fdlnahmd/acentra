@@ -2,28 +2,22 @@
  * motion-ssr-mock.tsx
  * Lightweight SSR-compatible stubs for motion/react.
  *
- * During server-side rendering, motion components have no browser context
- * and would throw errors. This module provides zero-animation stub
- * replacements that just render their children as plain DOM elements.
- *
- * Imported only from entry-server.tsx via module aliasing.
+ * During server-side rendering, motion components have no browser context.
+ * This module provides zero-animation stub replacements that render plain
+ * HTML elements. Imported only during the prerender SSR build via alias.
  */
 
 import React from "react";
-import type { HTMLMotionProps } from "motion/react";
 
-// Generic polymorphic motion element factory
-function createMotionStub<T extends keyof JSX.IntrinsicElements>(tag: T) {
-  return function MotionStub({
-    children,
-    className,
-    style,
-    onClick,
-    ...rest
-  }: HTMLMotionProps<T> & { children?: React.ReactNode }) {
-    // Strip motion-specific props, render as plain HTML element
-    const safeProps = { className, style, onClick };
-    return React.createElement(tag as string, safeProps, children);
+type AnyProps = React.HTMLAttributes<HTMLElement> & {
+  children?: React.ReactNode;
+  // Allow any motion-specific props to be passed and ignored
+  [key: string]: unknown;
+};
+
+function createMotionStub(tag: string) {
+  return function MotionStub({ children, className, style, onClick }: AnyProps) {
+    return React.createElement(tag, { className, style, onClick }, children);
   };
 }
 
