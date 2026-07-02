@@ -904,8 +904,8 @@ export default function App() {
                   <br />
                   <strong>Instagram:</strong> <a href="https://www.instagram.com/acentra.id" target="_blank" rel="noopener noreferrer" className="text-pink-400 select-all font-bold">@acentra.id</a>
                 </p>
-                <p className="text-sm text-slate-400">
-                  <strong>Email:</strong> acentraservice@gmail.com
+                <p className="text-sm text-slate-400" suppressHydrationWarning>
+                  <strong>Email:</strong> <a href="mailto:acentraservice@gmail.com" className="text-slate-400 hover:text-white transition-colors">acentraservice@gmail.com</a>
                 </p>
               </div>
             </div>
