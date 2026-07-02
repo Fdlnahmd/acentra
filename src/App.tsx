@@ -927,7 +927,7 @@ export default function App() {
 
           {/* Copyright note */}
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center text-xs text-slate-400 font-medium">
-            <p>
+            <p suppressHydrationWarning>
               &copy; {new Date().getFullYear()} Acentra Service. Semua Hak Cipta Dilindungi.
             </p>
             <p className="text-slate-400">
