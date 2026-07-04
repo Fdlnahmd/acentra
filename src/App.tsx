@@ -55,9 +55,10 @@ const MESSAGES = {
 
 // Reusable ScrollReveal wrapper component using Framer Motion
 // Ignores animations during SSR and renders directly, then triggers smooth client-side scroll animation.
-function ScrollReveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
+function ScrollReveal({ children, delay = 0, y = 30, className }: { children: React.ReactNode; delay?: number; y?: number; className?: string }) {
   return (
     <motion.div
+      className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
@@ -915,8 +916,7 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             
             {/* Left Column: Workshop Card (5 cols) */}
-            <ScrollReveal>
-            <div className="lg:col-span-5 space-y-6">
+            <ScrollReveal className="lg:col-span-5 space-y-6">
               <div>
                 <span className="text-xs font-bold text-[#0056B3] uppercase tracking-widest block mb-2">Lokasi Bengkel</span>
                 <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">Kunjungi Workshop Kami</h2>
@@ -959,7 +959,6 @@ export default function App() {
                   </a>
                 </div>
               </div>
-            </div>
             </ScrollReveal>
 
             {/* Right Column: Google Maps Embed (7 cols) */}
