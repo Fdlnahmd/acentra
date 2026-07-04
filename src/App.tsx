@@ -42,16 +42,31 @@ const getWhatsAppLink = (message: string) => {
 
 // Preset message templates for each CTA
 const MESSAGES = {
-  header: "Halo Acentra Service, saya ingin //berkonsultasi// mengenai keluhan AC rumah saya.",
-  hero: "Halo Acentra Service, saya ingin memesan //jasa perawatan AC// untuk rumah saya.",
-  pricingHelp: "Halo Acentra Service, saya ingin bertanya tentang //estimasi biaya perbaikan AC// saya.",
-  serviceCuci: "Halo Acentra Service, saya ingin memesan layanan //Cuci AC Bersih Maksimal.// Mohon informasi jadwal kosong terdekat.",
-  serviceRutin: "Halo Acentra Service, saya ingin menjadwalkan //Servis Rutin berkala untuk AC saya.//",
-  servicePerbaikan: "Halo Acentra Service, AC rumah saya sedang bermasalah/tidak dingin. Saya ingin memesan layanan //Diagnosa dan Perbaikan.//",
-  serviceFreon: "Halo Acentra Service, saya ingin memesan layanan //Tambah & Isi Freon AC.// Mohon informasi estimasi biaya dan waktu pengerjaan.",
+  header: "Halo Acentra Service, saya ingin //berkonsultasi mengenai keluhan AC rumah saya.// Mohon infonya.",
+  hero: "Halo Acentra Service, saya ingin memesan //jasa perawatan AC untuk rumah saya.// Mohon info ketersediaan jadwal.",
+  pricingHelp: "Halo Acentra Service, saya butuh //estimasi biaya perbaikan AC saya.// Mohon dibantu.",
+  serviceCuci: "Halo Acentra Service, saya siap memesan layanan //Cuci AC Bersih Maksimal// untuk rumah saya.",
+  serviceRutin: "Halo Acentra Service, saya tertarik memesan //Servis AC Rutin berkala// agar dingin maksimal.",
+  servicePerbaikan: "Halo Acentra Service, saya butuh layanan //Diagnosa & Perbaikan AC rusak// untuk rumah saya.",
+  serviceFreon: "Halo Acentra Service, saya ingin memesan layanan //Tambah & Isi Freon AC// agar dingin kembali.",
   servicePasang: "Halo Acentra Service, saya tertarik untuk melakukan //Pemasangan AC Baru.// Mohon info estimasi biaya instalasi.",
   finalCta: "Halo Acentra Service, saya siap memesan teknisi sekarang agar //AC rumah// kembali dingin dan segar."
 };
+
+// Reusable ScrollReveal wrapper component using Framer Motion
+// Ignores animations during SSR and renders directly, then triggers smooth client-side scroll animation.
+function ScrollReveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ duration: 0.6, delay, ease: "easeOut" }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -295,48 +310,50 @@ export default function App() {
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-          <div className="max-w-3xl mx-auto space-y-6 text-center">
-            
-            {/* Trust Badge badge */}
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md text-white px-4 py-2 rounded-full border border-white/25 font-bold text-xs sm:text-sm tracking-wide mx-auto shadow-2xs">
-              <ShieldCheck className="w-4 h-4 text-sky-400" />
-              <span>Pilihan Keluarga Indonesia</span>
+          <ScrollReveal>
+            <div className="max-w-3xl mx-auto space-y-6 text-center">
+              
+              {/* Trust Badge badge */}
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md text-white px-4 py-2 rounded-full border border-white/25 font-bold text-xs sm:text-sm tracking-wide mx-auto shadow-2xs">
+                <ShieldCheck className="w-4 h-4 text-sky-400" />
+                <span>Pilihan Keluarga Indonesia</span>
+              </div>
+
+              {/* Headline */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight drop-shadow-sm">
+                Servis AC Depok Cepat, <br className="hidden sm:inline" />
+                <span className="text-sky-400 relative">Terpercaya</span> & <br className="hidden lg:inline" />
+                Bergaransi
+              </h1>
+
+              {/* Subheadline (Large & highly readable) */}
+              <p className="text-lg sm:text-xl text-slate-200 leading-relaxed max-w-2xl mx-auto drop-shadow-xs">
+                Solusi AC dingin kembali dalam 60 menit. Dikerjakan oleh teknisi ahli berpengalaman untuk area perumahan Anda. Kami mengutamakan kejujuran, harga transparan, dan jaminan dingin maksimal.
+              </p>
+
+              {/* Big CTA Button */}
+              <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a
+                  href={getWhatsAppLink(MESSAGES.hero)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  id="hero_cta_whatsapp"
+                  className="w-full sm:w-auto inline-flex bg-[#15803d] hover:bg-[#166534] text-white text-lg sm:text-xl font-bold py-5 px-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all items-center justify-center gap-3 active:scale-95 duration-150 transform"
+                >
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  <span>Pesan via WhatsApp Sekarang</span>
+                </a>
+              </div>
+
+              {/* Real-time Online Indicator */}
+              <div className="flex items-center justify-center gap-3 mt-4 text-sm text-slate-300">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 block relative">
+                  <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75"></span>
+                </span>
+                <span>Konsultasi Gratis</span>
+              </div>
             </div>
-
-            {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight drop-shadow-sm">
-              Servis AC Depok Cepat, <br className="hidden sm:inline" />
-              <span className="text-sky-400 relative">Terpercaya</span> & <br className="hidden lg:inline" />
-              Bergaransi
-            </h1>
-
-            {/* Subheadline (Large & highly readable) */}
-            <p className="text-lg sm:text-xl text-slate-200 leading-relaxed max-w-2xl mx-auto drop-shadow-xs">
-              Solusi AC dingin kembali dalam 60 menit. Dikerjakan oleh teknisi ahli berpengalaman untuk area perumahan Anda. Kami mengutamakan kejujuran, harga transparan, dan jaminan dingin maksimal.
-            </p>
-
-            {/* Big CTA Button */}
-            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href={getWhatsAppLink(MESSAGES.hero)}
-                target="_blank"
-                rel="noopener noreferrer"
-                id="hero_cta_whatsapp"
-                className="w-full sm:w-auto inline-flex bg-[#15803d] hover:bg-[#166534] text-white text-lg sm:text-xl font-bold py-5 px-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all items-center justify-center gap-3 active:scale-95 duration-150 transform"
-              >
-                <MessageSquare className="w-5 h-5 fill-current" />
-                <span>Pesan via WhatsApp Sekarang</span>
-              </a>
-            </div>
-
-            {/* Real-time Online Indicator */}
-            <div className="flex items-center justify-center gap-3 mt-4 text-sm text-slate-300">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 block relative">
-                <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75"></span>
-              </span>
-              <span>Konsultasi Gratis</span>
-            </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -345,19 +362,22 @@ export default function App() {
         <div className="max-w-7xl mx-auto">
           
           {/* Section Header */}
-          <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0056B3] border-b-4 border-[#0056B3] w-fit mx-auto pb-2 mb-2">
-              Layanan Servis AC Kami di Depok
-            </h2>
-            <p className="text-lg text-slate-700 leading-relaxed">
-              Pilih jenis layanan yang Anda butuhkan. Klik tombol di bawah tiap layanan untuk pesan instan langsung dengan isi pesan WhatsApp otomatis.
-            </p>
-          </div>
+          <ScrollReveal>
+            <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0056B3] border-b-4 border-[#0056B3] w-fit mx-auto pb-2 mb-2">
+                Layanan Servis AC Kami di Depok
+              </h2>
+              <p className="text-lg text-slate-700 leading-relaxed">
+                Pilih jenis layanan yang Anda butuhkan. Klik tombol di bawah tiap layanan untuk pesan instan langsung dengan isi pesan WhatsApp otomatis.
+              </p>
+            </div>
+          </ScrollReveal>
 
           {/* Grid Layout for Services */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             {/* Card 1: Cuci AC */}
+            <ScrollReveal delay={0}>
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-[#F0F7FF] text-[#0056B3] flex items-center justify-center">
@@ -392,8 +412,10 @@ export default function App() {
                 </a>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Card 2: Perbaikan AC */}
+            <ScrollReveal delay={0.1}>
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center">
@@ -428,8 +450,10 @@ export default function App() {
                 </a>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Card 3: Tambah Freon */}
+            <ScrollReveal delay={0.2}>
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-sky-50 text-sky-800 flex items-center justify-center">
@@ -464,8 +488,10 @@ export default function App() {
                 </a>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Card 4: Servis AC Rutin */}
+            <ScrollReveal delay={0}>
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-[#F0F7FF] text-[#0056B3] flex items-center justify-center">
@@ -500,8 +526,10 @@ export default function App() {
                 </a>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Card 5: Pasang & Bongkar AC */}
+            <ScrollReveal delay={0.1}>
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
               <div className="space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center">
@@ -536,10 +564,12 @@ export default function App() {
                 </a>
               </div>
             </div>
+            </ScrollReveal>
 
           </div>
 
           {/* Simple Interactive Price Calculator widget inside Service (Great for transparent value) */}
+          <ScrollReveal>
           <div className="mt-16 bg-slate-50 rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs max-w-4xl mx-auto">
             <div className="flex items-center gap-3 mb-6">
               <span className="p-2 rounded-lg bg-[#F0F7FF] text-[#0056B3]">
@@ -643,8 +673,9 @@ export default function App() {
                 </a>
               </div>
             </div>
-            </div>
           </div>
+          </ScrollReveal>
+        </div>
       </section>
 
       {/* Why Choose Us Section */}
@@ -652,6 +683,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Header */}
+          <ScrollReveal>
           <div className="text-center max-w-3xl mx-auto space-y-4 mb-16">
             <span className="text-[#0056B3] text-sm font-extrabold uppercase tracking-widest block">KOMITMEN UTAMA KAMI</span>
             <h2 className="text-3xl sm:text-4xl font-extrabold text-[#0056B3] tracking-tight">
@@ -661,11 +693,13 @@ export default function App() {
               Kenyamanan ruang Anda adalah fokus utama kami. Kami berkomitmen memberikan layanan yang jujur, transparan, dan terpercaya.
             </p>
           </div>
+          </ScrollReveal>
 
           {/* Core Trust Points in Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             
             {/* Trust Point 1: Experienced Technicians */}
+            <ScrollReveal delay={0}>
             <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4">
               <div className="w-12 h-12 rounded-lg bg-[#F0F7FF] text-[#0056B3] flex items-center justify-center shadow-2xs">
                 <UserCheck className="w-6 h-6" />
@@ -677,8 +711,10 @@ export default function App() {
                 Teknisi kami berpengalaman, ramah, terlatih bertahun-tahun, serta bekerja sopan dengan standar kebersihan tinggi di rumah anda.
               </p>
             </div>
+            </ScrollReveal>
 
             {/* Trust Point 2: 30-Day Work Warranty */}
+            <ScrollReveal delay={0.1}>
             <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4">
               <div className="w-12 h-12 rounded-lg bg-emerald-50 text-emerald-800 flex items-center justify-center shadow-2xs">
                 <ShieldCheck className="w-6 h-6" />
@@ -690,8 +726,10 @@ export default function App() {
                 Jika timbul keluhan serupa setelah perbaikan dilakukan, kami langsung kirim teknisi kembali tanpa biaya sepeser pun. Garansi tertulis jelas.
               </p>
             </div>
+            </ScrollReveal>
 
             {/* Trust Point 3: Transparent Pricing */}
+            <ScrollReveal delay={0.2}>
             <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4">
               <div className="w-12 h-12 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center shadow-2xs">
                 <Receipt className="w-6 h-6" />
@@ -703,8 +741,10 @@ export default function App() {
                 Tidak ada biaya tersembunyi atau ditutup-tutupi. Biaya pengerjaan selalu diinfokan resmi di muka sebelum pengerjaan disetujui.
               </p>
             </div>
+            </ScrollReveal>
 
             {/* Trust Point 4: Fast Response */}
+            <ScrollReveal delay={0.3}>
             <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100/80 space-y-4">
               <div className="w-12 h-12 rounded-lg bg-amber-50 text-amber-800 flex items-center justify-center shadow-2xs">
                 <Clock className="w-6 h-6" />
@@ -716,10 +756,12 @@ export default function App() {
                 Kami sangat menghargai waktu Anda. Layanan customer service online responsif menjawab seputar keluhan AC kapan pun Anda butuhkan.
               </p>
             </div>
+            </ScrollReveal>
 
           </div>
 
           {/* Satisfied Clients Small Counter banner inside Trust Section */}
+          <ScrollReveal>
           <div className="mt-12 p-6 bg-slate-50 rounded-2xl border border-slate-100 text-center flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
             <div>
               <span className="text-2xl sm:text-3xl font-black text-slate-800 block">4.8 / 5.0</span>
@@ -736,6 +778,7 @@ export default function App() {
               <span className="text-xs text-slate-500 font-bold uppercase tracking-wider block">Pengalaman</span>
             </div>
           </div>
+          </ScrollReveal>
 
         </div>
       </section>
@@ -819,6 +862,7 @@ export default function App() {
        {/* Final Call To Action Section */}
       <section className="bg-[#F0F7FF] py-16 md:py-24 border-b border-slate-100 text-center relative overflow-hidden">
         
+        <ScrollReveal>
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-6">
           
           <div className="inline-flex items-center gap-2 bg-emerald-50 text-emerald-800 px-4 py-2 rounded-full border border-emerald-100 font-bold text-xs sm:text-sm tracking-wide mx-auto">
@@ -862,7 +906,80 @@ export default function App() {
           </div>
 
         </div>
+        </ScrollReveal>
       </section>
+
+      {/* Workshop Location & Map Section */}
+      <section className="py-16 md:py-24 bg-slate-50 border-b border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            
+            {/* Left Column: Workshop Card (5 cols) */}
+            <ScrollReveal>
+            <div className="lg:col-span-5 space-y-6">
+              <div>
+                <span className="text-xs font-bold text-[#0056B3] uppercase tracking-widest block mb-2">Lokasi Bengkel</span>
+                <h2 className="text-3xl font-black text-slate-900 tracking-tight leading-tight">Kunjungi Workshop Kami</h2>
+                <p className="text-slate-500 text-sm mt-2 leading-relaxed">
+                  Kami memiliki workshop fisik resmi di Depok untuk menjamin kepercayaan Anda. Silakan berkunjung untuk konsultasi langsung atau sekadar berdiskusi mengenai keluhan AC Anda.
+                </p>
+              </div>
+
+              {/* Information Detail Card */}
+              <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+                <div>
+                  <h3 className="font-extrabold text-[#0056B3] text-lg">Acentra Service</h3>
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-600 mt-1 bg-emerald-50 px-2.5 py-1 rounded-full">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Buka 24 Jam (Hari Libur Tetap Buka)
+                  </span>
+                </div>
+                
+                <div className="text-slate-600 text-sm leading-relaxed space-y-3 pt-2">
+                  <div>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Alamat Bengkel</span>
+                    <p className="font-medium text-slate-800">
+                      Jl. Wijaya Kusuma Raya No.8, Depok Jaya, Kec. Pancoran Mas, Kota Depok, Jawa Barat 16432
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block mb-1">Telepon &amp; WhatsApp</span>
+                    <p className="font-bold text-slate-800">{PHONE_NUMBER_DISPLAY}</p>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Acentra+Service+Depok+Jaya"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-[#0056B3] hover:bg-[#004494] active:scale-[0.98] text-white font-extrabold py-3.5 px-4 rounded-xl text-sm transition-all shadow-xs"
+                  >
+                    <span>Petunjuk Arah (Google Maps) ↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+            </ScrollReveal>
+
+            {/* Right Column: Google Maps Embed (7 cols) */}
+            <div className="lg:col-span-7 h-[350px] sm:h-[450px] rounded-2xl overflow-hidden shadow-md border border-slate-200/60 relative">
+              <iframe
+                src="https://maps.google.com/maps?q=Acentra%20Service%20Depok&t=&z=17&ie=UTF8&iwloc=A&output=embed"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen=""
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Lokasi Google Maps Acentra Service"
+              />
+            </div>
+
+          </div>
+        </div>
+      </section>
+
     </main>
 
       {/* Full Informational Footer */}
