@@ -42,3 +42,8 @@ export const motion = {
 export function AnimatePresence({ children }: { children?: React.ReactNode }) {
   return <>{children}</>;
 }
+
+// useInView stub for SSR: always returns true so CountUp renders final value
+export function useInView(_ref: React.RefObject<Element>, _options?: object): boolean {
+  return true;
+}

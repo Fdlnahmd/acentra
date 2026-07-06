@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, useInView } from "motion/react";
 import { 
   Phone, 
   MessageSquare, 
@@ -54,8 +54,7 @@ const MESSAGES = {
 };
 
 // Reusable ScrollReveal wrapper component using Framer Motion
-// Ignores animations during SSR and renders directly, then triggers smooth client-side scroll animation.
-function ScrollReveal({ children, delay = 0, y = 30, className }: { children: React.ReactNode; delay?: number; y?: number; className?: string }) {
+function ScrollReveal({ children, delay = 0, y = 30, className, whileHover }: { children: React.ReactNode; delay?: number; y?: number; className?: string; whileHover?: React.ComponentProps<typeof motion.div>["whileHover"] }) {
   return (
     <motion.div
       className={className}
@@ -63,9 +62,36 @@ function ScrollReveal({ children, delay = 0, y = 30, className }: { children: Re
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.6, delay, ease: "easeOut" }}
+      whileHover={whileHover}
     >
       {children}
     </motion.div>
+  );
+}
+
+// CountUp: animates a number from 0 → target once it enters the viewport
+function CountUp({ to, suffix = "", decimals = 0 }: { to: number; suffix?: string; decimals?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    const duration = 1500;
+    const startTime = performance.now();
+    const animate = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      setCount(to * eased);
+      if (progress < 1) requestAnimationFrame(animate);
+    };
+    requestAnimationFrame(animate);
+  }, [inView, to]);
+
+  return (
+    <span ref={ref}>
+      {decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toLocaleString("id-ID")}{suffix}
+    </span>
   );
 }
 
@@ -378,8 +404,8 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             
             {/* Card 1: Cuci AC */}
-            <ScrollReveal delay={0}>
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+            <ScrollReveal delay={0} whileHover={{ y: -6, transition: { duration: 0.2 } }} className="h-full">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group h-full">
               <div className="space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-[#F0F7FF] text-[#0056B3] flex items-center justify-center">
                   <Droplets className="w-7 h-7" />
@@ -416,8 +442,8 @@ export default function App() {
             </ScrollReveal>
 
             {/* Card 2: Perbaikan AC */}
-            <ScrollReveal delay={0.1}>
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+            <ScrollReveal delay={0.1} whileHover={{ y: -6, transition: { duration: 0.2 } }} className="h-full">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group h-full">
               <div className="space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-amber-50 text-amber-800 flex items-center justify-center">
                   <Wrench className="w-7 h-7" />
@@ -454,8 +480,8 @@ export default function App() {
             </ScrollReveal>
 
             {/* Card 3: Tambah Freon */}
-            <ScrollReveal delay={0.2}>
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+            <ScrollReveal delay={0.2} whileHover={{ y: -6, transition: { duration: 0.2 } }} className="h-full">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group h-full">
               <div className="space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-sky-50 text-sky-800 flex items-center justify-center">
                   <Snowflake className="w-7 h-7" />
@@ -492,8 +518,8 @@ export default function App() {
             </ScrollReveal>
 
             {/* Card 4: Servis AC Rutin */}
-            <ScrollReveal delay={0}>
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+            <ScrollReveal delay={0} whileHover={{ y: -6, transition: { duration: 0.2 } }} className="h-full">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group h-full">
               <div className="space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-[#F0F7FF] text-[#0056B3] flex items-center justify-center">
                   <Clock className="w-7 h-7" />
@@ -530,8 +556,8 @@ export default function App() {
             </ScrollReveal>
 
             {/* Card 5: Pasang & Bongkar AC */}
-            <ScrollReveal delay={0.1}>
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group">
+            <ScrollReveal delay={0.1} whileHover={{ y: -6, transition: { duration: 0.2 } }} className="h-full">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group h-full">
               <div className="space-y-4">
                 <div className="w-14 h-14 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center">
                   <PlusCircle className="w-7 h-7" />
@@ -765,17 +791,23 @@ export default function App() {
           <ScrollReveal>
           <div className="mt-12 p-6 bg-slate-50 rounded-2xl border border-slate-100 text-center flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12">
             <div>
-              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">4.8 / 5.0</span>
+              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">
+                <CountUp to={4.8} decimals={1} /> / 5.0
+              </span>
               <span className="text-xs text-slate-500 font-bold uppercase tracking-wider block">Rating Kepuasan</span>
             </div>
             <div className="hidden sm:block w-px h-10 bg-slate-200"></div>
             <div>
-              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">1,000+</span>
+              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">
+                <CountUp to={1000} suffix="+" />
+              </span>
               <span className="text-xs text-slate-500 font-bold uppercase tracking-wider block">Unit AC Berhasil Ditangani</span>
             </div>
             <div className="hidden sm:block w-px h-10 bg-slate-200"></div>
             <div>
-              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">10 Tahun+</span>
+              <span className="text-2xl sm:text-3xl font-black text-slate-800 block">
+                <CountUp to={10} suffix=" Tahun+" />
+              </span>
               <span className="text-xs text-slate-500 font-bold uppercase tracking-wider block">Pengalaman</span>
             </div>
           </div>
@@ -911,6 +943,7 @@ export default function App() {
       </section>
 
       {/* Workshop Location & Map Section */}
+      {false && (
       <section className="py-16 md:py-24 bg-slate-50 border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -968,7 +1001,7 @@ export default function App() {
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
-                allowFullScreen=""
+                allowFullScreen={true}
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
                 title="Lokasi Google Maps Acentra Service"
@@ -978,6 +1011,7 @@ export default function App() {
           </div>
         </div>
       </section>
+      )}
 
     </main>
 
