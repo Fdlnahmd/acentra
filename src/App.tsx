@@ -50,6 +50,7 @@ const MESSAGES = {
   servicePerbaikan: "Halo Acentra Service, saya butuh layanan //Diagnosa & Perbaikan AC rusak// untuk rumah saya.",
   serviceFreon: "Halo Acentra Service, saya ingin memesan layanan //Tambah & Isi Freon AC// agar dingin kembali.",
   servicePasang: "Halo Acentra Service, saya tertarik untuk melakukan //Pemasangan AC Baru.// Mohon info estimasi biaya instalasi.",
+  servicePremium: "Halo Acentra Service, saya siap memesan layanan //Premium Care// untuk rumah saya agar AC awet dan bersih maksimal.",
   finalCta: "Halo Acentra Service, saya siap memesan teknisi sekarang agar //AC rumah// kembali dingin dan segar."
 };
 
@@ -119,23 +120,28 @@ export default function App() {
     switch (selectedService) {
       case "cuci":
         return {
-          price: unitCount * 80000,
+          price: unitCount * 125000,
           description: "Termasuk cuci filter indoor, evaporator, drainase air, dan pembersihan unit outdoor."
         };
       case "rutin":
         return {
-          price: unitCount * 130000,
+          price: unitCount * 200000,
           description: "Termasuk cuci unit lengkap, pengecekan tekanan freon, dan arus kelistrikan kompresor."
         };
       case "freon":
         return {
-          price: unitCount * 150000,
+          price: unitCount * 285000,
           description: "Penambahan atau pengisian ulang gas freon (R32 / R410A) agar kualitas pendinginan AC kembali maksimal."
         };
       case "pasang":
         return {
-          price: unitCount * 280000,
+          price: unitCount * 300000,
           description: "Instalasi AC baru/pindahan secara rapi, termasuk vacum unit (tidak termasuk material pipa)."
+        };
+      case "premium":
+        return {
+          price: unitCount * 300000,
+          description: "Pemeriksaan menyeluruh freon, amperase kelistrikan kompresor, dan pembersihan filter chemical anti-jamur."
         };
       default:
         return { price: 0, description: "Silakan konsultasikan kerusakan langsung ke teknisi kami lewat WhatsApp." };
@@ -348,15 +354,15 @@ export default function App() {
 
               {/* Headline */}
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight drop-shadow-sm">
-                Servis AC Depok Cepat, <br className="hidden sm:inline" />
-                <span className="text-sky-400 relative">Terpercaya</span> & <br className="hidden lg:inline" />
-                Bergaransi
+                Servis AC Depok Premium, <br className="hidden sm:inline" />
+                <span className="text-sky-400 relative">Bergaransi</span> & <br className="hidden lg:inline" />
+                Terpercaya
               </h1>
 
               {/* Subheadline (Large & highly readable) */}
               <p className="text-lg sm:text-xl text-slate-200 leading-relaxed max-w-2xl mx-auto drop-shadow-xs">
-                Solusi AC dingin kembali dalam 60 menit. Dikerjakan oleh teknisi ahli berpengalaman untuk area perumahan Anda. Kami mengutamakan kejujuran, harga transparan, dan jaminan dingin maksimal.
-              </p>
+                Solusi AC dingin kembali tanpa repot. Dikerjakan oleh teknisi ahli berpengalaman untuk area perumahan Anda. Kami berkomitmen memberikan layanan premium, bergaransi dan jaminan kebersihan tinggi.
+                </p>
 
               {/* Big CTA Button */}
               <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -412,7 +418,7 @@ export default function App() {
                 </div>
                 <div>
                   <h3 className="text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-[#0056B3] transition-colors">
-                    Cuci AC Bersih Maksimal
+                    Cuci AC
                   </h3>
                   <p className="text-xs font-bold text-[#0056B3] uppercase tracking-widest mt-1">Saran: Setiap 3-4 Bulan</p>
                 </div>
@@ -423,7 +429,7 @@ export default function App() {
                 {/* Visual price tag directly in card */}
                 <div className="bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 flex items-center justify-between">
                   <span className="text-sm font-bold text-slate-500">Estimasi Biaya Resmi:</span>
-                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 80.000 <span className="text-xs font-normal text-slate-500">/unit</span></span>
+                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 125.000 <span className="text-xs font-normal text-slate-500">/unit</span></span>
                 </div>
               </div>
 
@@ -499,7 +505,7 @@ export default function App() {
                 {/* Visual price tag directly in card */}
                 <div className="bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 flex items-center justify-between">
                   <span className="text-sm font-bold text-slate-500">Estimasi Biaya Pengisian:</span>
-                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 150.000 <span className="text-xs font-normal text-slate-500">/unit</span></span>
+                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 285.000 <span className="text-xs font-normal text-slate-500">/unit</span></span>
                 </div>
               </div>
 
@@ -537,7 +543,7 @@ export default function App() {
                 {/* Visual price tag directly in card */}
                 <div className="bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 flex items-center justify-between">
                   <span className="text-sm font-bold text-slate-500">Estimasi Biaya Pemeliharaan:</span>
-                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 130.000 <span className="text-xs font-normal text-slate-500">/unit</span></span>
+                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 200.000 <span className="text-xs font-normal text-slate-500">/unit</span></span>
                 </div>
               </div>
 
@@ -575,7 +581,7 @@ export default function App() {
                 {/* Visual price tag directly in card */}
                 <div className="bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 flex items-center justify-between">
                   <span className="text-sm font-bold text-slate-500">Estimasi Biaya Pasang:</span>
-                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 280.000 <span className="text-xs font-normal text-slate-500">/unit</span></span>
+                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 300.000 <span className="text-xs font-normal text-slate-500">/unit</span></span>
                 </div>
               </div>
 
@@ -588,6 +594,44 @@ export default function App() {
                 >
                   <MessageSquare className="w-5 h-5 fill-current" />
                   <span>Pesan Pasang AC Baru</span>
+                </a>
+              </div>
+            </div>
+            </ScrollReveal>
+
+            {/* Card 6: Premium Care */}
+            <ScrollReveal delay={0.2} whileHover={{ y: -6, transition: { duration: 0.2 } }} className="h-full">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-100 shadow-xs hover:shadow-md transition-all flex flex-col justify-between group h-full">
+              <div className="space-y-4">
+                <div className="w-14 h-14 rounded-xl bg-purple-50 text-purple-800 flex items-center justify-center">
+                  <Sparkles className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-slate-800 group-hover:text-[#0056B3] transition-colors">
+                    Premium Care
+                  </h3>
+                  <p className="text-xs font-bold text-purple-700 uppercase tracking-widest mt-1">AC MENJADI LEBIH AWET</p>
+                </div>
+                <p className="text-[#475569] text-base leading-relaxed">
+                  Pemeriksaan menyeluruh isi muatan freon, pengecekan ketat amperase kompresor, kondisi komponen kelistrikan utama, pengecekan kebocoran freon, serta pembersihan filter udara indoor menggunakan chemical yang berfungsi untuk mencegah jamur, membuat AC menjadi wangi dan lebih bersih.
+                </p>
+
+                {/* Visual price tag directly in card */}
+                <div className="bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-500">Estimasi Biaya Premium:</span>
+                  <span className="text-lg font-extrabold text-[#0056B3]">Mulai Rp 300.000 <span className="text-xs font-normal text-slate-500">/unit</span></span>
+                </div>
+              </div>
+
+              <div className="pt-6">
+                <a
+                  href={getWhatsAppLink(MESSAGES.servicePremium)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-flex items-center justify-center gap-2 bg-[#15803d] hover:bg-[#166534] text-white font-bold py-3.5 px-6 rounded-xl text-base shadow-xs"
+                >
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  <span>Pesan Premium Care</span>
                 </a>
               </div>
             </div>
@@ -614,12 +658,13 @@ export default function App() {
               <div className="space-y-6">
                 <div>
                   <span className="block text-sm font-bold text-slate-600 mb-2 uppercase tracking-wide">Pilih Jenis Layanan:</span>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                     {[
                       { id: "cuci", label: "Cuci AC" },
                       { id: "rutin", label: "Servis Rutin" },
                       { id: "freon", label: "Tambah Freon" },
-                      { id: "pasang", label: "Pasang Baru" }
+                      { id: "pasang", label: "Pasang Baru" },
+                      { id: "premium", label: "Premium Care" }
                     ].map((item) => (
                       <button
                         key={item.id}
@@ -688,6 +733,8 @@ export default function App() {
                         ? 'Servis Rutin' 
                         : selectedService === 'freon'
                         ? 'Tambah Freon'
+                        : selectedService === 'premium'
+                        ? 'Premium Care'
                         : 'Pasang Baru'
                     } sebanyak ${unitCount} unit dengan estimasi harga resmi Rp ${calculatorInfo.price.toLocaleString("id-ID")}.`
                   )}
@@ -750,7 +797,7 @@ export default function App() {
                 Service Bergaransi
               </h3>
               <p className="text-slate-500 text-sm leading-relaxed">
-                Jika timbul keluhan serupa setelah perbaikan dilakukan, kami langsung kirim teknisi kembali tanpa biaya sepeser pun. Garansi tertulis jelas.
+                  Jika timbul keluhan serupa setelah perbaikan di lakukan, Kami langsung kirim teknisi kembali tanpa biaya sepeser pun. <b>Garansi 3 bulan *S&K berlaku.</b>
               </p>
             </div>
             </ScrollReveal>
